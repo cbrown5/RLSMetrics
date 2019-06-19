@@ -24,7 +24,7 @@
 #' If you chose the log option, the function will calculate log10(x+1). 
 
 #'
-#' @author Christopher J. Brown
+#' @author Christopher J. Brown, mellin
 #' @examples
 #' data(rls)
 #' data(fdat)
