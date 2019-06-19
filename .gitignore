@@ -1,0 +1,8 @@
+.Rbuildignore
+.Rhistory
+.Rapp.history
+/data-raw
+/old-code
+.dropbox
+Icon
+.Rproj.user

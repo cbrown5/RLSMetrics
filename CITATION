@@ -1,0 +1,7 @@
+@Manual{ReefLifeSurvey,
+    title = {ReefLifeSurvey: An R program package for the analysis and visualisation of the Reef Life Survey database},
+    author = {Brown CJ, Edgar GJ, Stuart-Smith RD},
+    year = {2018},
+    note = {R package version 0-1},
+    url = {},
+  }
