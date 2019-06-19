@@ -41,7 +41,8 @@
 #' @rdname commtempindex
 #' @export
 commtempindex <- function(datin, ...,
-                          tempvar = "ThermalMP_5min_95max", abundvar = "Abundance", na.rm = T, dolog = TRUE){
+                          tempvar = "ThermalMP_5min_95max", abundvar = "Abundance", na.rm = T, 
+                          dolog = TRUE){
 
     if (!("SurveyID" %in% names(datin))){
         stop("Data must be at survey level and contain the variable SurveyID")}
