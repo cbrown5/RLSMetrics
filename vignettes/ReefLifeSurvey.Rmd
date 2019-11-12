@@ -1,5 +1,5 @@
 ---
-title: "Introduction to RLSPrivate"
+title: "Introduction to RLSMetrics"
 author: "CJ Brown"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -20,10 +20,10 @@ Edgar GJ, Stuart-Smith RD. Systematic global assessment of reef fish communities
 
 ## Getting started
 
-Once you have installed `RLSPrivate` then you can get access to the databases:
+Once you have installed `RLSMetrics` then you can get access to the databases:
 
 ```{r}
-    library(RLSPrivate)
+    library(RLSMetrics)
     data(rls)
     data(sdat)
     data(survdat)

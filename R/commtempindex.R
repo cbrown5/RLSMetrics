@@ -1,7 +1,7 @@
 #' Calculate the community temperature index
 #'
 #' @usage commtempindex(datin, ...,
-#', tempvar = "ThermalMP_5_95", abundvar = "BioMass",
+#', tempvar = "ThermalMP_5_95", abundvar = "Biomass",
 #' na.rm = T, dolog = TRUE)
 #' @param datin \code{tbl_df} A dataframe of species observations with a
 #' temperature index for each observation.
@@ -35,7 +35,7 @@
 #'    inner_join(sdat) %>%
 #'    inner_join(flim) %>%
 #'    filter(Class %in% fish_classes())
-#' xout <- r2 %>% commtempindex(Location, Ecoregion, tempvar = "ThermalMP_5_95", abundvar = "BioMass", dolog = TRUE)
+#' xout <- r2 %>% commtempindex(Location, Ecoregion, tempvar = "ThermalMP_5_95", abundvar = "Biomass", dolog = TRUE)
 #'hist(xout$CTI)
 
 #' @rdname commtempindex

@@ -1,13 +1,13 @@
-Package: RLSPrivate
+Package: RLSMetrics
 Type: Package
-Title: Analysis and visualisation of the Reef Life Survey dataset
+Title: Analysis of the Reef Life Survey dataset
 Version: 1.0
-Date: 2017-11-21
+Date: 2019-11-13
 Authors@R: c(person("Christopher", "Brown",
     email = "christo.j.brown@gmail.com",
     role = c("aut", "cre")))
-Description: Tools to work with the Reef Life Survey dataset
-    This version is for private use of the RLS team.
+Description: Tools to work with the Reef Life Survey dataset,
+    including calculating key metrics like B20 and CTI. 
     Data available at https://reeflifesurvey.com/
 License: MIT + file LICENSE
 RoxygenNote: 6.0.1

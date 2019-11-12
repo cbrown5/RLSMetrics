@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="CJ Brown" />
+
+<meta name="date" content="2019-07-18" />
+
+<title>Introduction to RLSPrivate</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to RLSPrivate</h1>
+<h4 class="author">CJ Brown</h4>
+<h4 class="date">2019-07-18</h4>
+
+
+
+<p>This package provides access to the <a href="https://reeflifesurvey.com/">Reef Life Survey</a> data-base and helpful functions for analyising and visualising this extensive data source.</p>
+<p>The citation for this data is: Edgar GJ, Stuart-Smith RD. Systematic global assessment of reef fish communities by the Reef Life Survey program. Scientific Data. 2014 May 27;1:140007.</p>
+<div id="getting-started" class="section level2">
+<h2>Getting started</h2>
+<p>Once you have installed <code>RLSPrivate</code> then you can get access to the databases:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">library</span>(RLSPrivate)</code></pre></div>
+<pre><code>Loading required package: dplyr</code></pre>
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">data</span>(rls)
+    <span class="kw">data</span>(sdat)
+    <span class="kw">data</span>(survdat)
+    <span class="kw">data</span>(fdat)</code></pre></div>
+<p><code>rls</code> is the main database of observations, <code>sdat</code> is a database of site covariates and <code>survdat</code> is a database of survey level covariates.</p>
+<p>Weights are by default recorded in grams, so you may want to convert them to kg first:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rls<span class="op">$</span>BioMass &lt;-<span class="st"> </span>rls<span class="op">$</span>BioMass<span class="op">/</span><span class="dv">1000</span> <span class="co">#convert to kg</span></code></pre></div>
+</div>
+<div id="all-metrics" class="section level2">
+<h2>All metrics</h2>
+<p>The general purpose function <code>allmetrics</code> will calculate a range of metrics of different types (biomass, diversity and functional groups) for a given grouping variable. Below we calculate all the metrics by <code>SurveyID</code>. We pass in two internal dataframes <code>cryptdat</code> and <code>invertclasses</code> which just specify which families belong to cryptic fish and invertebrates.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(cryptdat)
+<span class="kw">data</span>(invertclasses)
+
+dout &lt;-<span class="st"> </span><span class="kw">allmetrics</span>(rls, SurveyID, <span class="dt">sdat =</span> sdat, <span class="dt">survdat =</span> survdat, <span class="dt">fdat =</span> fdat, <span class="dt">cryptdat =</span> cryptdat, <span class="dt">invertclasses =</span> invertclasses)
+dout</code></pre></div>
+<pre><code># A tibble: 45,833 x 10
+   SurveyID m1_alpha m1_biomass    B20 m2_fish_alpha m2_invert_alpha
+   &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
+ 1 M000105~        7      5.51   5.40             NA              NA
+ 2 M000105~        8      6.01   5.15             NA              NA
+ 3 M000105~        5     11.8   10.9              NA              NA
+ 4 M000105~        4      7.31   7.31             NA              NA
+ 5 M000105~        5      3.35   3.27             NA              NA
+ 6 M000105~        4      3.93   3.93             NA              NA
+ 7 M000105~        5      4.81   4.81             NA              NA
+ 8 M000105~        2      0.848  0.848            NA              NA
+ 9 M000105~        4      3.42   3.26             NA              NA
+10 M000105~        6      3.39   3.34             NA              NA
+# ... with 45,823 more rows, and 4 more variables: FG_richness &lt;dbl&gt;,
+#   biomass &lt;dbl&gt;, CTI &lt;dbl&gt;, urchin_abundance &lt;dbl&gt;</code></pre>
+</div>
+<div id="diversity-and-biomass-metrics" class="section level2">
+<h2>Diversity and biomass metrics</h2>
+<p>You can calculate a range of metrics using the <code>calcmetrics</code> function, such as the alpha diversity:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">   <span class="kw">calcmetrics</span>(rls, <span class="dt">metrics =</span> <span class="kw">c</span>(<span class="st">&quot;alpha&quot;</span>))</code></pre></div>
+<pre><code>Warning in calcmetrics(rls, metrics = c(&quot;alpha&quot;)): You are pooling metrics
+across &gt;1 method. Consider filtering input data for a single method first.</code></pre>
+<pre><code># A tibble: 1 x 1
+  alpha
+  &lt;dbl&gt;
+1  10.9</code></pre>
+<p>This will pass a warning to let you know you are calculating alpha diversity across multiple methods. You could filter <code>rls</code> for a single method, see example for functional groups below.</p>
+<p>The data-frame <code>calcmetrics</code> can also take a grouping variable as input (must be a named variable in the data.frame at hand). For instance, to calculate the biomass of fish &gt;40cm:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> <span class="kw">head</span>(<span class="kw">calcmetrics</span>(rls, SurveyID, <span class="dt">metrics =</span> <span class="kw">c</span>(<span class="st">&quot;bioatsize&quot;</span>), <span class="dt">sizecat =</span> <span class="dv">40</span>))</code></pre></div>
+<pre><code>Warning in calcmetrics(rls, SurveyID, metrics = c(&quot;bioatsize&quot;), sizecat
+= 40): You are pooling metrics across &gt;1 method. Consider filtering input
+data for a single method first.</code></pre>
+<pre><code># A tibble: 6 x 2
+  SurveyID        bioatsize
+  &lt;chr&gt;               &lt;dbl&gt;
+1 M00010500272011     0    
+2 M00010500272012     0.983
+3 M00010500272013     0.695
+4 M00010500272014     0    
+5 M00010500272021     0    
+6 M00010500272022     0    </code></pre>
+<p>You could also join <code>survdat</code> to site level data to calculate site level alpha diversity (i.e. average number of fish observed on all surveys at that site):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="co">#alpha diversity</span>
+    rls <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">inner_join</span>(survdat) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">calcmetrics</span>(SiteCode, <span class="dt">metrics =</span> <span class="st">&quot;alpha&quot;</span>)</code></pre></div>
+<pre><code>Joining, by = &quot;SurveyID&quot;</code></pre>
+<pre><code>Warning in calcmetrics(., SiteCode, metrics = &quot;alpha&quot;): You are pooling
+metrics across &gt;1 method. Consider filtering input data for a single method
+first.</code></pre>
+<pre><code># A tibble: 2,530 x 2
+   SiteCode alpha
+   &lt;chr&gt;    &lt;dbl&gt;
+ 1 0001      5.73
+ 2 0002      8.01
+ 3 0003      7.48
+ 4 0004      5.83
+ 5 0005      6.78
+ 6 0006      9.23
+ 7 0007      7.18
+ 8 0008      3.81
+ 9 0009      6.88
+10 0010      8.9 
+# ... with 2,520 more rows</code></pre>
+<p>If you want to know gamma diversity (total number of species observed at a site), then use the <code>nspp</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="co">#gamma diversity by sites </span>
+    rls <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">inner_join</span>(survdat) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">nspp</span>(SiteCode)</code></pre></div>
+<pre><code>Joining, by = &quot;SurveyID&quot;</code></pre>
+<pre><code># A tibble: 2,530 x 2
+   SiteCode richness
+   &lt;chr&gt;       &lt;int&gt;
+ 1 0001           59
+ 2 0002          106
+ 3 0003           60
+ 4 0004           39
+ 5 0005           91
+ 6 0006          124
+ 7 0007           48
+ 8 0008           23
+ 9 0009           40
+10 0010           22
+# ... with 2,520 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+    <span class="co">#gamma diversity by ecoregions</span>
+   rls <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">inner_join</span>(survdat) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">inner_join</span>(sdat) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">nspp</span>(Ecoregion)</code></pre></div>
+<pre><code>Joining, by = &quot;SurveyID&quot;</code></pre>
+<pre><code>Joining, by = &quot;SiteCode&quot;</code></pre>
+<pre><code># A tibble: 20 x 2
+   Ecoregion                                 richness
+   &lt;chr&gt;                                        &lt;int&gt;
+ 1 Arnhem Coast to Gulf of Carpenteria            459
+ 2 Bassian                                        543
+ 3 Bonaparte Coast                                379
+ 4 Cape Howe                                      728
+ 5 Central and Southern Great Barrier Reef       1099
+ 6 Cocos-Keeling/Christmas Island                 285
+ 7 Coral Sea                                      962
+ 8 Exmouth to Broome                             1051
+ 9 Great Australian Bight                         158
+10 Gulf of Papua                                  394
+11 Houtman                                        504
+12 Leeuwin                                        541
+13 Lord Howe and Norfolk Islands                  660
+14 Manning-Hawkesbury                             726
+15 Ningaloo                                       545
+16 Shark Bay                                      135
+17 South Australian Gulfs                         408
+18 Torres Strait Northern Great Barrier Reef     1136
+19 Tweed-Moreton                                  694
+20 Western Bassian                                215</code></pre>
+</div>
+<div id="functional-group-metrics" class="section level2">
+<h2>Functional group metrics</h2>
+<p>If you want to get biomass of different functional groups, then use <code>tgroup_metrics()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flim &lt;-<span class="st"> </span>fdat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(SpeciesID, Class, TrophicGroup)
+
+herbs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;browsing herbivore&quot;</span>, <span class="st">&quot;scraping herbivore&quot;</span>, <span class="st">&quot;excavator&quot;</span>, <span class="st">&quot;algal farmer&quot;</span>)
+
+r2 &lt;-<span class="st"> </span>rls <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Method <span class="op">==</span><span class="dv">1</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">inner_join</span>(survdat) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">inner_join</span>(sdat)</code></pre></div>
+<pre><code>Joining, by = &quot;SurveyID&quot;</code></pre>
+<pre><code>Joining, by = &quot;SiteCode&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fout &lt;-<span class="st"> </span><span class="kw">tgroup_metrics</span>(r2, Location, Ecoregion, <span class="dt">tgroups =</span> herbs, <span class="dt">traits =</span> flim, <span class="dt">na.rm =</span> T, <span class="dt">metrics =</span> <span class="st">&quot;biomass&quot;</span>)
+
+<span class="kw">hist</span>(fout<span class="op">$</span>biomass)</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="community-temperature-index" class="section level2">
+<h2>Community temperature index</h2>
+<p>The community temperature index is calculated for a survey as: <span class="math display">\[\frac{\sum^n_i{T_j B_{i,j}}}{\sum^n_i{B_{i,j}}}\]</span> Where there are <span class="math inline">\(n\)</span> surveys <span class="math inline">\(i\)</span>,<span class="math inline">\(T_j\)</span> are the species thermal indexes (e.g. thermal midpoint from a species range) and <span class="math inline">\(B_{i,j}\)</span> are the biomasses or abundances of each species at each site.</p>
+<p>For instance, to calculate the CTI for locations and ecoregions:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flim &lt;-<span class="st"> </span>fdat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(SpeciesID, Class, Family, ThermalMP_5_<span class="dv">95</span>)
+
+r2 &lt;-<span class="st"> </span>rls <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Method <span class="op">==</span><span class="dv">1</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">inner_join</span>(survdat) <span class="op">%&gt;%</span>
+<span class="st">   </span><span class="kw">inner_join</span>(sdat) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">inner_join</span>(flim) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">filter</span>(Class <span class="op">%in%</span><span class="st"> </span><span class="kw">fish_classes</span>())</code></pre></div>
+<pre><code>Joining, by = &quot;SurveyID&quot;</code></pre>
+<pre><code>Joining, by = &quot;SiteCode&quot;</code></pre>
+<pre><code>Joining, by = &quot;SpeciesID&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> xout &lt;-<span class="st"> </span>r2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">commtempindex</span>(Location, Ecoregion, <span class="dt">tempvar =</span> <span class="st">&quot;ThermalMP_5_95&quot;</span>, <span class="dt">abundvar =</span> <span class="st">&quot;BioMass&quot;</span>, <span class="dt">dolog =</span> <span class="ot">TRUE</span>)
+<span class="kw">hist</span>(xout<span class="op">$</span>CTI)</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

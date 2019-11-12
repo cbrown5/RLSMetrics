@@ -39,8 +39,8 @@ calcmetrics <- function(datin, ..., sizecat = 20, na.rm = T, metrics = c("alpha"
 
         args <- list(
             alpha = dplyr::quo(dplyr::n_distinct(SpeciesID)),
-            biomass = dplyr::quo(sum(BioMass, na.rm = na.rm)),
-            bioatsize = dplyr::quo(.sum_sizeclass(BioMass, SizeClass, sizecat = sizecat, na.rm = na.rm)),
+            biomass = dplyr::quo(sum(Biomass, na.rm = na.rm)),
+            bioatsize = dplyr::quo(.sum_sizeclass(Biomass, Sizeclass, sizecat = sizecat, na.rm = na.rm)),
             abundance = dplyr::quo(sum(Abundance, na.rm = na.rm))
             )
 
