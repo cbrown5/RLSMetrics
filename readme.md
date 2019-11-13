@@ -7,6 +7,6 @@ This package contains handy functions designed for analysing data of fish/invert
 You can  install this package directly from github with `devtools` and `remotes`:
 `devtools::install_github("cbrown5/RLSMetrics")`
 
-Once you've loaded the package try `vignette(RLSMetrics)` to get help.
+This package currently has no working vignettes. They are planned in the future. 
 
 Contact chris.brown@griffith.edu.au with any queries.  
