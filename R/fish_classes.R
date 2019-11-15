@@ -12,7 +12,7 @@
 #' data(fdat)
 #' filter(fdat, Class %in% fish_classes())
 
-#' @rdname nspp
+#' @rdname fish_classes
 #' @export
 fish_classes <- function(){
     c("Actinopterygii", "Elasmobranchii", "Chondrichthyes")

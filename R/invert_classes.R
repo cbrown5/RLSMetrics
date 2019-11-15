@@ -14,7 +14,7 @@
 #' data(fdat)
 #' filter(fdat, Class %in% invert_classes())
 
-#' @rdname nspp
+#' @rdname invert_classes
 #' @export
 invert_classes <- function(){
   c("Asteroidea", "Bivalvia","Cephalopoda",
