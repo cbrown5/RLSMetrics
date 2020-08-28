@@ -26,6 +26,9 @@
 #'
 #'All values are calculated at survey level then
 #' averages are taken at higher levels, if requested.
+#' Watch out for duplicate survey, site or species IDs in the survey, site and species
+#' level data. They will cause duplication of abundance/biomass data when they are 
+#' joined to the count data 
 #'
 #' @author Christopher J. Brown
 #' @examples
@@ -35,8 +38,16 @@
 #' @export
 allmetrics <- function(datin, ..., sdat, survdat, fdat, cryptdat, invertclasses,  na.rm = TRUE){
 
-    oldw <- getOption("warn")
-    options(warn = -1)
+    if (nrow(survdat) > length(unique(survdat$SurveyID))){
+      warning("Duplicate survey identifiers in survey data, this may cause overestimation of metric value")}
+  if (nrow(sdat) > length(unique(sdat$SiteCode))){
+    warning("Duplicate survey identifiers in site data, this may cause overestimation of metrics values")}
+  if (nrow(fdat) > length(unique(fdat$SpeciesID))){
+    warning("Duplicate survey identifiers in species data, this may cause overestimation of metrics values")}
+  
+  
+    # oldw <- getOption("warn")
+    # options(warn = -1)
     flim <- fdat %>% select(SpeciesID, Class, Family, TrophicGroup)
 
     # Fish species richness
@@ -124,6 +135,6 @@ allmetrics <- function(datin, ..., sdat, survdat, fdat, cryptdat, invertclasses,
     ngpvars <- length(quos(...))
     gp <- names(alldat[[1]])[1:ngpvars]
     alldat <- purrr::reduce(alldat, full_join, by = gp)
-    options(warn = oldw)
+    # options(warn = oldw)
     return(alldat)
 }
